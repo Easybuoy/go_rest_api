@@ -1,9 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
@@ -21,10 +21,44 @@ type Author struct {
 	Lastname  string `json: "lastname"`
 }
 
+// Init books variable as slice Book struct
+var books []Book
+
+// Get all books
+func getBooks(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(books)
+}
+
+// Get single book
+func getBook(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// Create book
+func createBook(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// Update book
+func updateBook(w http.ResponseWriter, r *http.Request) {
+
+}
+
+// Delete book
+func deleteBook(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func main() {
 	// Initalize router
 	r := mux.NewRouter()
 
+	// Mock Data
+	books = append(books, Book{ID: "1", Isbn: "12323", Title: "Book 1", Author: &Author{Firstname: "Ezekiel", Lastname: "Ekunola"}})
+	books = append(books, Book{ID: "2", Isbn: "32123", Title: "Book 2", Author: &Author{Firstname: "Jane", Lastname: "Doe"}})
+
+	// Route handlers / Endpoints
 	r.HandleFunc("/api/books", getBooks).Methods("GET")
 	r.HandleFunc("/api/books/{id}", getBook).Methods("GET")
 	r.HandleFunc("/api/books", createBook).Methods("POST")
